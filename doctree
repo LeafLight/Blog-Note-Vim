@@ -1,0 +1,31 @@
+#!/bin/bash
+#-*-coding:UTF-8-*-
+#Author: LeafLight
+#Date: 2022-02-06
+help(){
+	echo "Usage: It is an executable shell script that will print the file structure of ~/Document"
+	echo "Synrax: doctree [-h]"
+	echo "options:"
+	echo "h	Print this help"
+	#echo "m Move to the doc filefold"
+	# cd doesn't work in a shell script because it will generate a new child shell to execute the commands.
+}
+#get the options
+while getopts ":h" option; do
+	case $option in
+		h) #display help
+			help
+			exit;;
+		#m) #move to the doc filefold
+			#echo "cd ~/Documents"
+			#cd ~/Documents;;
+		\?)#invalid option
+			echo "Error: Invalid Option(s)"
+			help
+			exit;;
+	esac
+done
+########################################
+#main feature
+########################################
+tree ~/Documents

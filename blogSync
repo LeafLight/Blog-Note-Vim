@@ -1,0 +1,61 @@
+#!/bin/bash
+#-*-coding:UTF-8-*-
+#Author: LeafLight
+#Date: 2022-02-06
+help(){
+	echo "Usage: Sychronize the blog data with github(when local data is more updated)"
+	echo "Syntax: blogSync [-h|m]"
+}
+# the comment message for `git commit -m`
+MSG="nothing important or just forgotten"
+MSG_flag=1
+while getopts ":hm:" option; do
+	case $option in
+		h) #display help
+			help
+			exit;;
+		m) #commit message
+			MSG=$OPTARG
+			MSG_flag=0;;
+		\?)#invalid option
+			echo "Error: Invalid Option(s)"
+			help
+			exit;;
+	esac
+done
+########################################
+#main
+#check if the MSG remains unchanged
+if [ $MSG_flag == $[1] ]; then
+	echo "Warning: MSG not defined manually"
+	echo "MSG: $MSG"
+	echo "__________________________________"
+fi
+#echo the command that will be executed for [Y/n]
+echo "git add ."
+echo "git commit -m "$MSG""
+echo "git push origin hexo"
+echo "hexo g"
+echo "hexo d"
+#[Y/n] before executing for security
+# the while-case structure for [Y/n]
+while true; do
+	read -r -p "Commands above will be executed, are u sure? [Y/n]" input
+	case $input in
+		[yY]) #yes
+			echo "Sychronization Starts!"
+			break;;
+		[nN]) #no
+			echo "Stopped!"
+			exit 0;;
+		*) #invalid input
+			echo "Invalid Input...try again"
+esac
+done
+
+#Syc. Commands
+git add .
+git commit -m "$MSG"
+git push origin hexo
+hexo g
+hexo d

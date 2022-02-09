@@ -1,0 +1,53 @@
+#!/bin/bash
+# -*- code:utf-8 -*-
+help(){	
+	echo "Usage: Vim the Note markdown file(specified by options, default: ~/Documents/EveDayOneNote/UsefulLinuxCmd.md)"
+	echo "Syntax: notevim [-h|n|l]"
+	echo "Options:"
+	echo "h	Print this help"
+	echo "n The name of the note which you what to edit with vim"
+	echo "l List the name of all the note"
+	echo "c Copy the raw note file to the blog directory"
+	echo "-------------------------------------------------------"
+	echo "Add notes by editting the notevimFileDir.json."
+	echo "'BlogDir' in notevimFileDir.json is reserved for the Blog Directory of Hexo."
+}
+########################################
+#main feature
+source ~/bin/.notevimrc
+listname(){
+	echo "____________________note list____________________"
+	for fn in $filename
+	do
+		echo "$fn"
+	done
+}
+while getopts ":hn::lc:u:" option;do
+	case $option in
+		h) #display help
+			help
+			exit
+			;;
+		n) #name of the note which you want to edit
+			python3 ~/bin/notevim_utils.py -n $OPTARG
+			;;
+		l) #list the names of the notes
+			python3 ~/bin/notevim_utils.py -l
+			exit
+			;;
+		c) #copy the file into the blog dir
+			echo "$OPTARG"
+			python3 ~/bin/notevim_utils.py -c $OPTARG
+			exit
+			;;
+		u) #update the blog note file(by rm and cp)
+			python3 ~/bin/notevim_utils.py -u $OPTARG
+			exit
+			;;
+		\?) #invalid option(s)
+			echo "Error: Invalid option(s)"
+			exit
+			;;
+		esac
+done
+
