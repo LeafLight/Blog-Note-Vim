@@ -55,15 +55,15 @@ except:
     print('Error: Invalid option(s), from notevim_utils.py')
 
 for opt,val in opts:
-    if opt in ['-n']:
+    if opt == '-n':
         #name of the note
         filename = val
         #get the directory of the note and edit it
         os.system('vim %s'%(GetTheDir(filename))) 
-    if opt in ['-l']:
+    if opt == '-l':
         #list the names of the note
         ListTheNote()
-    if opt in ['-c']:
+    if opt == '-c':
         #copy the note into Blog dir
         filename = val
         cmd = 'cp %s %s'%(GetTheDir(filename), get_BlogDir(GetTheDir(filename))) 
@@ -71,7 +71,7 @@ for opt,val in opts:
         print("command(s) executed:")
         print("________________________________________")
         print(cmd)
-    if opt in ['-u']:
+    if opt in '-u':
         #update the specifc file(rm the old one and cp the new one)
         filename = val
         filePath = GetTheDir(filename)
@@ -84,17 +84,15 @@ for opt,val in opts:
         print("Update the old one?[Y/n]")
         while True:
             Yn = input()
-            if (Yn == 'y')|(Yn == 'Y'):
+            if Yn == 'y' or Yn == 'Y':
                 if raw_file_mtime<gbs_file_mtime:
-                    os.system('rm %s'%(filePath))
                     os.system('cp %s %s'%(get_BlogDir(GetTheDir(filename)), GetTheDir(filename)))
                     break
                 else:
-                    os.system('rm %s'%(get_BlogDir(filePath)))
                     os.system('cp %s %s'%(GetTheDir(filename), get_BlogDir(GetTheDir(filename))))
                     break
 
-            elif (Yn == 'n')|(Yn =='N'):
+            elif Yn == 'n' or Yn =='N':
                 break
             else:
                 print("Invalid input,Try again...[Y/n]")

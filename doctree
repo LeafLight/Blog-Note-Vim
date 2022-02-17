@@ -4,7 +4,7 @@
 #Date: 2022-02-06
 help(){
 	echo "Usage: It is an executable shell script that will print the file structure of ~/Document"
-	echo "Synrax: doctree [-h]"
+	echo "Syntax: doctree [-h]"
 	echo "options:"
 	echo "h	Print this help"
 	#echo "m Move to the doc filefold"
