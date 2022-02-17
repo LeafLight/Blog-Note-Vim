@@ -13,12 +13,12 @@ from os.path import expanduser
 # 'BlogDir' is reserved for the blog Directory of Hexo
 def GetTheDir(filename=None):
     #skip the first arg. : the name of this script
-    with open(os.getcwd()+"/notevimFileDir.json", 'r') as f:
+    with open("/".join(__file__.split("/")[:-1])+"/notevimFileDir.json", 'r') as f:
         DirDict = json.load(f)
     return DirDict[filename]
 # list all the note and their dirs
 def ListTheNote():
-    with open(os.getcwd()+"/notevimFileDir.json", 'r') as f:
+    with open("/".join(__file__.split("/")[:-1])+"/notevimFileDir.json", 'r') as f:
         DirDict = json.load(f)
         print("All of the notes and their directories:")
         print("________________________________________")
