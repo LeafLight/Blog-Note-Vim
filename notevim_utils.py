@@ -13,12 +13,12 @@ from os.path import expanduser
 # 'BlogDir' is reserved for the blog Directory of Hexo
 def GetTheDir(filename=None):
     #skip the first arg. : the name of this script
-    with open("notevimFileDir.json", 'r') as f:
+    with open(os.getcwd()+"/notevimFileDir.json", 'r') as f:
         DirDict = json.load(f)
     return DirDict[filename]
 # list all the note and their dirs
 def ListTheNote():
-    with open("notevimFileDir.json", 'r') as f:
+    with open(os.getcwd()+"/notevimFileDir.json", 'r') as f:
         DirDict = json.load(f)
         print("All of the notes and their directories:")
         print("________________________________________")
@@ -55,15 +55,15 @@ except:
     print('Error: Invalid option(s), from notevim_utils.py')
 
 for opt,val in opts:
-    if opt == '-n':
+    if opt in ['-n']:
         #name of the note
         filename = val
         #get the directory of the note and edit it
         os.system('vim %s'%(GetTheDir(filename))) 
-    if opt == '-l':
+    if opt in ['-l']:
         #list the names of the note
         ListTheNote()
-    if opt == '-c':
+    if opt in ['-c']:
         #copy the note into Blog dir
         filename = val
         cmd = 'cp %s %s'%(GetTheDir(filename), get_BlogDir(GetTheDir(filename))) 
@@ -71,7 +71,7 @@ for opt,val in opts:
         print("command(s) executed:")
         print("________________________________________")
         print(cmd)
-    if opt in '-u':
+    if opt in ['-u']:
         #update the specifc file(rm the old one and cp the new one)
         filename = val
         filePath = GetTheDir(filename)
@@ -84,15 +84,17 @@ for opt,val in opts:
         print("Update the old one?[Y/n]")
         while True:
             Yn = input()
-            if Yn == 'y' or Yn == 'Y':
+            if (Yn == 'y')|(Yn == 'Y'):
                 if raw_file_mtime<gbs_file_mtime:
+                    os.system('rm %s'%(filePath))
                     os.system('cp %s %s'%(get_BlogDir(GetTheDir(filename)), GetTheDir(filename)))
                     break
                 else:
+                    os.system('rm %s'%(get_BlogDir(filePath)))
                     os.system('cp %s %s'%(GetTheDir(filename), get_BlogDir(GetTheDir(filename))))
                     break
 
-            elif Yn == 'n' or Yn =='N':
+            elif (Yn == 'n')|(Yn =='N'):
                 break
             else:
                 print("Invalid input,Try again...[Y/n]")
